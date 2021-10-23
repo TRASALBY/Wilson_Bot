@@ -8,14 +8,30 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.security.auth.login.LoginException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Main extends ListenerAdapter {
     public static JDA jda;
-    public static void main(String[] args) throws LoginException{
-        jda = JDABuilder.createDefault("OTAxMzM2MzMxNzM1NjY2NzA4.YXOY3w.o9RCptGaqJlVKTQWhPW0XDk_wxQ").build();
+    public static void main(String[] args) throws LoginException {
+
+        Path path = Paths.get("./token.txt");
+        String token = "";
+        try{
+            token = Files.readString(path);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        jda = JDABuilder.createDefault(token).build();
         jda.getPresence().setStatus(OnlineStatus.ONLINE);
         jda.getPresence().setActivity(Activity.playing("코드 주입 당"));
 
